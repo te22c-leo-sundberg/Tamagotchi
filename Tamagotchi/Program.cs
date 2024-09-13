@@ -1,4 +1,6 @@
-﻿Tamagotchi tama = new("");
+﻿using System.Dynamic;
+
+Tamagotchi tama = new("");
 tama.Tick();
 Console.WriteLine("What do you want your Tamagotchi to be called?");
 tama.Name = Console.ReadLine();
@@ -15,11 +17,12 @@ while (tama.GetAlive() == true)
     {
         Console.WriteLine($"5. Gamble with {tama.Name}!");
     }
-    int action = Console.ReadLine().IndexOf("");
-    if (action == 1) { tama.Feed(); tama.Tick(); }
-    else if (action == 2) { tama.ReduceBoredom(); tama.Tick(); }
-    else if (action == 3) { tama.Teach(); tama.Tick(); }
-    else if (action == 4) { tama.Tick(); }
-    else if (action == 5 && tama.hasGambling == true) { tama.Gambling(); }
+    int action = Convert.ToInt32(Console.ReadLine());
+    Console.Clear();
+    if (action == 1) { tama.Feed(); tama.Tick(); Console.ReadLine(); }
+    else if (action == 2) { tama.ReduceBoredom(); tama.Tick(); Console.ReadLine(); }
+    else if (action == 3) { tama.Teach(); tama.Tick(); Console.ReadLine(); }
+    else if (action == 4) { tama.Tick(); Console.ReadLine(); }
+    else if (action == 5 && tama.hasGambling == true) { tama.Gambling(); Console.ReadLine(); }
 }
 Console.ReadLine();

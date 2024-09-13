@@ -13,7 +13,7 @@ public class Tamagotchi
         Name = "";
     }
     public void PrintStats()
-    { Console.WriteLine($" || {Name} || Hunger: {hunger} || Boredom: {boredom} || Money: {money} || Alive: {isAlive}"); }
+    { Console.WriteLine($" || {Name} || Hunger: {hunger} || Boredom: {boredom} || Money: ${money} || Alive: {isAlive}"); }
 
     public void Feed()
     {
@@ -44,7 +44,7 @@ public class Tamagotchi
     {
         Console.WriteLine($"What do you want to teach {Name}");
         string toTeach = Console.ReadLine();
-        if (toTeach == "gambling")
+        if (toTeach.ToUpper() == "GAMBLING")
         {
             hasGambling = true;
             words.Add(toTeach);
@@ -65,20 +65,20 @@ public class Tamagotchi
     {
         Console.WriteLine($"{Name} is feeling lucky! They have ${money}.");
         Console.WriteLine("How much do they want to bet?");
-        int betMoney = Console.ReadLine().IndexOf("");
+        int betMoney = Convert.ToInt32(Console.ReadLine());  
         if (betMoney > money)
         {
             Console.WriteLine($"I'm sorry, {Name} doesn't seem to know about the conept of money, bet a smaller amount.");
         }
         else 
         {
-            money =- betMoney;
-            Console.WriteLine("They bet ${money}");
-            Console.WriteLine("What color would you like to bet on? RED, BLACk or GREEN");
+            money = money - betMoney;
+            Console.WriteLine($"They bet ${betMoney}");
+            Console.WriteLine("What color would they like to bet on? RED, BLACK or GREEN");
             string gamblingColor = Console.ReadLine().ToUpper();
             if (gamblingColor == "BLACK" || gamblingColor == "RED")
             {
-                Console.WriteLine($"{Name} bets ${money} on {gamblingColor}! Let's get gambling!");
+                Console.WriteLine($"{Name} bets ${betMoney} on {gamblingColor}! Let's get gambling!");
                 int chance = rnd.Next(1, 2);
                 if (chance > 1)
                 {
