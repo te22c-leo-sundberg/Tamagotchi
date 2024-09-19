@@ -5,9 +5,13 @@ public class Tamagotchi
     private int hunger;
     private int boredom;
     private int money = 100;
+    private int betMoney;
+    private int winMultiplier;
     private List<string> words = new List<string>();
     private bool isAlive;
     public bool hasGambling = false;
+    public bool hasNFT = false;
+    public bool hasBitcoin = false;
     public Tamagotchi(string name)
     {
         Name = "";
@@ -35,9 +39,6 @@ public class Tamagotchi
         {
             boredom = 0;
         }
-
-        
-
         isAlive = hunger < 10 && boredom < 10;
     }
     public void Teach()
@@ -47,6 +48,16 @@ public class Tamagotchi
         if (toTeach.ToUpper() == "GAMBLING")
         {
             hasGambling = true;
+            words.Add(toTeach);
+        }
+        else if (toTeach.ToUpper() == "NFT")
+        {
+            hasNFT = true;
+            words.Add(toTeach);
+        }
+        else if (toTeach.ToUpper() == "BITCOIN")
+        {
+            hasBitcoin = true;
             words.Add(toTeach);
         }
         else
@@ -59,6 +70,13 @@ public class Tamagotchi
         if (boredom > 5) { Console.WriteLine($"{Name}: {toTeach.ToLower()}! {toTeach.ToLower()}! "); }
 
         else { Console.WriteLine($"{Name}: {toTeach.ToUpper()}! {toTeach.ToUpper()}! "); }
+
+        ReduceBoredom();
+    }
+    public void Hi()
+    {
+        Console.WriteLine(words[Random.Shared.Next(0, words.Count)]);
+        ReduceBoredom();
     }
 
     public void Gambling()
@@ -76,14 +94,26 @@ public class Tamagotchi
             Console.WriteLine($"They bet ${betMoney}");
             Console.WriteLine("What color would they like to bet on? RED, BLACK or GREEN");
             string gamblingColor = Console.ReadLine().ToUpper();
-            if (gamblingColor == "BLACK" || gamblingColor == "RED")
+            Console.WriteLine($"{Name} bets ${betMoney} on {gamblingColor}! Let's get gambling!");
+            int chance = rnd.Next(1, 37);
+            if (gamblingColor == "BLACK")
             {
-                Console.WriteLine($"{Name} bets ${betMoney} on {gamblingColor}! Let's get gambling!");
-                int chance = rnd.Next(1, 2);
-                if (chance > 1)
+                winMultiplier = 2;
+                if (chance > 1 && chance < 18)
                 {
-                    Console.WriteLine("Won");
-                    money = betMoney * 2 + money;
+                    GamblingWon();
+                }
+                else 
+                {
+                    Console.WriteLine("Lost");
+                }
+            }
+            else if (gamblingColor == "RED")
+            {
+                winMultiplier = 2;
+                if (chance > 17 && chance < 35)
+                {
+                    GamblingWon();
                 }
                 else 
                 {
@@ -92,12 +122,10 @@ public class Tamagotchi
             }
             else if (gamblingColor == "GREEN")
             {
-                Console.WriteLine($"{Name} is feeling ballsy and bets ${money} on {gamblingColor}! Let's get gambling!");
-                int chance = rnd.Next(1, 15);
-                if (chance > 14)
+                winMultiplier = 15;
+                if (chance == 35)
                 {
-                    Console.WriteLine("Won");
-                    money = betMoney * 15 + money;
+                    GamblingWon();
                 }
                 else 
                 {
@@ -107,6 +135,12 @@ public class Tamagotchi
         }
         
 
+    }
+    public void GamblingWon()
+    {
+        Console.WriteLine($"{Name} won {betMoney * winMultiplier}! They're brimming with joy!");
+        money = betMoney * winMultiplier + money;
+        ReduceBoredom();
     }
     public bool GetAlive()
     {

@@ -23,6 +23,10 @@ while (tama.GetAlive() == true)
     else if (action == 2) { tama.ReduceBoredom(); tama.Tick(); Console.ReadLine(); }
     else if (action == 3) { tama.Teach(); tama.Tick(); Console.ReadLine(); }
     else if (action == 4) { tama.Tick(); Console.ReadLine(); }
-    else if (action == 5 && tama.hasGambling == true) { tama.Gambling(); Console.ReadLine(); }
+    else if (action == 5 && tama.hasGambling == true) { tama.Gambling(); tama.Tick(); Console.ReadLine(); }
+}
+if (tama.GetAlive() == false)
+{
+    Console.WriteLine($"{tama.Name} has died. Do you want to try to raise them right?");
 }
 Console.ReadLine();
